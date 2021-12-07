@@ -1,24 +1,25 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Title from "./components/Title";
 import NewEventForm from "./components/NewEventForm";
 import mando from "../src/assets/img/mando.png";
 import IconButton from "./components/IconButton";
 import { IoAddCircle } from "react-icons/io5";
-import styles from "./components/IconButton.module.css";
+import "./components/IconButton.css";
 import "./index.css";
+import { IEvent } from "./interfaces";
 
 function App() {
   const [showModal, setShowModal] = useState(false);
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<IEvent[]>([]);
 
-  const addEvent = (event) => {
+  const addEvent = (event: IEvent): void => {
     setEvents((prevEvents) => {
       return [...prevEvents, event];
     });
     setShowModal(false);
   };
 
-  const handleDeleteNote = (id) => {
+  const handleDeleteNote = (id: number): void => {
     setEvents((prevEvents) => {
       return prevEvents.filter((event) => id !== event.id);
     });
@@ -44,8 +45,7 @@ function App() {
         </div>
         <div className="options">
           <IconButton
-            icon={<IoAddCircle className={styles.icon} />}
-            text="New Event"
+            icon={<IoAddCircle className="icon" />}
             onClick={handleAddNewEvent}
           />
         </div>

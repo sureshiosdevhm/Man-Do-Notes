@@ -4,18 +4,21 @@ import { AiFillCheckCircle } from "react-icons/ai";
 import { IoMdTrash } from "react-icons/io";
 import moment from "moment";
 import SmoothList from "react-smooth-list";
+import { IEvent, ICreateNewEventProps, IShowEventProps } from "../interfaces";
 
-export default function NewEventForm({ addEvent, event, onDelete }) {
+export default function NewEventForm(
+  props: ICreateNewEventProps | IShowEventProps
+) {
   const [note, setNote] = useState("");
   const [showIcon, setShowIcon] = useState(false);
-
   const resetForm = () => {
     setNote("");
   };
+  const { addEvent } = props as ICreateNewEventProps;
+  const { onDelete, event } = props as IShowEventProps;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const event = {
+  const handleSubmit = (): void => {
+    const event: IEvent = {
       note: note,
       date: moment().format("LL"),
       id: Math.floor(Math.random() * 10000),
@@ -25,7 +28,7 @@ export default function NewEventForm({ addEvent, event, onDelete }) {
     resetForm();
   };
 
-  function onChangeHandler(e) {
+  function onChangeHandler(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setNote(e.target.value);
     console.log(e.target.value);
     if (e.target.value !== "") {
@@ -40,8 +43,8 @@ export default function NewEventForm({ addEvent, event, onDelete }) {
       <label>
         <textarea
           name="note"
-          rows="5"
-          cols="30"
+          rows={5}
+          cols={30}
           placeholder="This is Man-Do note..."
           required
           onChange={onChangeHandler}
